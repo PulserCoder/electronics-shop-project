@@ -30,3 +30,12 @@ class TestItem:
         item.apply_discount()
 
         assert item.price == 20.0 * Item.pay_rate
+
+    def test_instantiate_from_csv(self) -> None:
+        Item.instantiate_from_csv('../homework-2/items.csv')
+        assert len(Item.all) == 5
+
+    def test_string_to_number(self) -> None:
+        assert Item.string_to_number('123') == 123
+
+
