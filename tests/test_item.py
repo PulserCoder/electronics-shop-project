@@ -33,9 +33,13 @@ class TestItem:
 
     def test_instantiate_from_csv(self) -> None:
         Item.instantiate_from_csv('../homework-2/items.csv')
-        assert len(Item.all) == 5
+        assert len(Item.all) == 8
 
     def test_string_to_number(self) -> None:
         assert Item.string_to_number('123') == 123
 
+    def test_magic_methods(self):
+        item1 = Item("Смартфон", 10000, 20)
+        assert repr(item1) == "Item('Смартфон', 10000, 20)"
+        assert str(item1) == 'Смартфон'
 
