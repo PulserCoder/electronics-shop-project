@@ -1,5 +1,6 @@
 import pytest
 from src.item import Item
+from src.phone import Phone
 
 
 class TestItem:
@@ -42,4 +43,9 @@ class TestItem:
         item1 = Item("Смартфон", 10000, 20)
         assert repr(item1) == "Item('Смартфон', 10000, 20)"
         assert str(item1) == 'Смартфон'
+
+    def test_adding(self):
+        phone1 = Phone('123', 1, 2, 2)
+        item1 = Item('123', 2, 3)
+        assert item1 + phone1 == 5
 

@@ -1,5 +1,6 @@
 import csv
 
+from src.exceptions import AddPhoneException
 
 class Item:
     """
@@ -62,7 +63,6 @@ class Item:
             for row in reader:
                 cls(row['name'], row['price'], row['quantity'])
 
-
     @staticmethod
     def string_to_number(number: str) -> int:
         """
@@ -71,3 +71,10 @@ class Item:
         """
         a = float(number)
         return int(a)
+
+    def __add__(self, other) -> float:
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        if issubclass(self.__class__, other.__class__):
+            return self.quantity + other.quantity
+        raise AddPhoneException(f"Невозможно сложить {self.__class__} с {other.__class__}")
