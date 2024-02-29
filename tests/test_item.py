@@ -1,4 +1,6 @@
 import pytest
+
+from src.exceptions import InstantiateCSVError
 from src.item import Item
 from src.phone import Phone
 
@@ -48,4 +50,12 @@ class TestItem:
         phone1 = Phone('123', 1, 2, 2)
         item1 = Item('123', 2, 3)
         assert item1 + phone1 == 5
+
+    def test_absent_file(self):
+        with pytest.raises(FileNotFoundError):
+            Item.instantiate_from_csv()
+
+    def test_exception(self):
+        with pytest.raises(InstantiateCSVError):
+            Item.instantiate_from_csv('../homework-2/items.csv')
 

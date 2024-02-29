@@ -1,6 +1,7 @@
 import csv
 
-from src.exceptions import AddPhoneException
+from src.exceptions import AddPhoneException, InstantiateCSVError
+
 
 class Item:
     """
@@ -51,17 +52,28 @@ class Item:
         self.__name = value[:10]
 
     @classmethod
-    def instantiate_from_csv(cls, path: str) -> None:
+    def instantiate_from_csv(cls, path: str = '') -> None:
         """
             Создает экземпляры товаров из CSV-файла и добавляет их в список.
 
             Args:
                 path (str): Путь к CSV-файлу.
         """
-        with open(path, newline='', encoding='latin-1') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                cls(row['name'], row['price'], row['quantity'])
+        try:
+            with open(path, newline='', encoding='latin-1') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    try:
+                        if row["name"] is None or row["price"] is None or row["quantity"] is None:
+                            raise InstantiateCSVError('Файл item.csv поврежден')
+                    except Exception:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+                    else:
+                        cls(row["name"], row["price"], row["quantity"])
+
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл item.csv")
+
 
     @staticmethod
     def string_to_number(number: str) -> int:
